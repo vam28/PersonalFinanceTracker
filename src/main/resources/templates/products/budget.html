@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Budget and Goals</title>
+    <!-- Include CSS and JS files as needed -->
+</head>
+<body>
+    <h1>Budget and Goals</h1>
+
+    <!-- Table to display existing categories -->
+    <table>
+        <thead>
+            <tr>
+                <th>Category</th>
+                <th>Budget</th>
+                <th>CatId</th>
+                <th>Goal Achieved</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="category : ${categories}">
+                <td th:text="${category.name}"></td>
+                <td th:text="${category.budget}"></td>
+                <td th:text="${category.catId}"></td>
+                <td th:text="${category.goalAchieved}"></td>
+                <td>
+                    <!-- Edit and Delete buttons -->
+                    <form th:action="@{/budget/update/{id}(id=${category.id})}" method="post">
+                        <input type="text" name="name" th:value="${category.name}" required />
+                        <input type="number" name="budget" th:value="${category.budget}" required />
+                        <input type="number" name="catId" th:value="${category.catId}" required />
+                        <button type="submit">Update</button>
+                    </form>
+                    <a th:href="@{/budget/delete/{id}(id=${category.id})}">Delete</a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <!-- Form to add a new category -->
+    <h2>Add Category</h2>
+    <form th:action="@{/budget/add}" method="post",enctype="application/x-www-form-urlencoded">
+        <input type="text" name="name" placeholder="Category Name" required />
+        <input type="number" name="budget" placeholder="Budget" required />
+        <input type="number" name="catId" placeholder="CatId" required />
+        <button type="submit">Add</button>
+    </form>
+</body>
+</html>
+

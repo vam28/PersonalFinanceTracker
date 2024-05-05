@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Income</title>
+    <!-- Include CSS and JS files as needed -->
+</head>
+<body>
+    <h1>Income</h1>
+
+    <!-- Table to display existing incomes -->
+    <table>
+        <thead>
+            <tr>
+                <th>Amount</th>
+                <th>Date</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="income : ${incomes}">
+                <td th:text="${income.amount}"></td>
+                <td th:text="${income.date}"></td>
+                <td>
+                    <!-- Edit and Delete buttons -->
+                    <form th:action="@{/income/edit/{id}(id=${income.id})}" method="post">
+                        <input type="hidden" name="_method" value="put" />
+                        <input type="number" name="amount" th:value="${income.amount}" required />
+                        <input type="date" name="date" th:value="${income.date}" required />
+                        <button type="submit">Edit</button>
+                    </form>
+                    <a th:href="@{/income/delete/{id}(id=${income.id})}">Delete</a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <!-- Form to add a new income -->
+    <h2>Add Income</h2>
+    <form th:action="@{/income/add}" method="post">
+        <input type="number" name="amount" placeholder="Amount" required />
+        <input type="date" name="date" placeholder="Date" required />
+        <button type="submit">Add</button>
+    </form>
+</body>
+</html>

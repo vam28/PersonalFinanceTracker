@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Expenses</title>
+    <!-- Include CSS and JS files as needed -->
+</head>
+<body>
+    <h1>Expenses</h1>
+
+    <!-- Table to display existing expenses -->
+    <table>
+        <thead>
+            <tr>
+                <th>Description</th>
+                <th>Date</th>
+                <th>Price</th>
+                <th>Category</th>
+                <th>CategoryId</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="expense : ${expenses}">
+                <td th:text="${expense.description}"></td>
+                <td th:text="${expense.date}"></td>
+                <td th:text="${expense.price}"></td>
+                <td th:text="${expense.category}"></td>
+                <td th:text="${expense.categoryId}"></td>
+                <td>
+                    <!-- Edit and Delete buttons -->
+                    <form th:action="@{/expenses/edit/{id}(id=${expense.id})}" method="post">
+                        <input type="text" name="description" th:value="${expense.description}" required />
+                        <input type="date" name="date" th:value="${expense.date}" required />
+                        <input type="number" name="price" th:value="${expense.price}" required />
+                        <input type="text" name="category" th:value="${expense.category}" required />
+                        <input type="text" name="categoryId" th:value="${expense.categoryId}" required />
+                        <button type="submit">Edit</button>
+                    </form>
+                    <a th:href="@{/expenses/delete/{id}(id=${expense.id})}">Delete</a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <!-- Form to add a new expense -->
+    <h2>Add Expense</h2>
+    <form th:action="@{/expenses/add}" method="post">
+        <input type="text" name="description" placeholder="Description" required />
+        <input type="date" name="date" placeholder="Date" required />
+        <input type="number" name="price" placeholder="Price" required />
+        <input type="text" name="category" placeholder="Category" required />
+        <input type="text" name="categoryId" placeholder="CategoryId" required />
+        <button type="submit">Add</button>
+    </form>
+</body>
+</html>

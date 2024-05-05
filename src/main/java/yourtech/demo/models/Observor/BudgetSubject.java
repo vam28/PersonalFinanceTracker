@@ -1,0 +1,39 @@
+package yourtech.demo.models.Observor;
+import yourtech.demo.models.entity.Category;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import org.springframework.stereotype.Component;
+@Component
+public class BudgetSubject implements Subject {
+
+    private final List<Observer> observers;
+    private Category category;
+
+    public BudgetSubject() {
+        observers = new ArrayList<>();
+    }
+
+    @Override
+    public void registerObserver(Observer observer) {
+        observers.add(observer);
+    }
+
+    @Override
+    public void removeObserver(Observer observer) {
+        observers.remove(observer);
+    }
+
+    @Override
+    public void notifyObservers() {
+        for (Observer observer : observers) {
+            observer.update(category);
+        }
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
+        notifyObservers();
+    }
+}
